@@ -615,6 +615,7 @@ var datetimepickerFactory = function ($) {
 		lazyInit: false,
 		mask: false,
 		validateOnBlur: true,
+		OverrideValidateOnBlurDefault: null,
 		allowBlank: true,
 		yearStart: 1950,
 		yearEnd: 2050,
@@ -1324,7 +1325,12 @@ var datetimepickerFactory = function ($) {
 											return item > 9 ? item : '0' + item;
 										}).join(':'));
 									} else {
-										$(this).val(dateHelper.formatDate(_xdsoft_datetime.now(), options.format));
+										if(options.OverrideValidateOnBlurDefault != null){
+											$(this).val(dateHelper.formatDate(options.OverrideValidateOnBlurDefault, options.format));
+										}
+										else{
+											$(this).val(dateHelper.formatDate(_xdsoft_datetime.now(), options.format));
+										}
 									}
 								}
 								datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());

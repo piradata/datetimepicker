@@ -594,6 +594,15 @@ jQuery(function(){
 <pre><code class="language-javascript">{ validateOnBlur:false}</code></pre>
 </td>
 </tr>
+</tr>
+<tr id="OverrideValidateOnBlurDefault">
+<td><a href="#OverrideValidateOnBlurDefault">OverrideValidateOnBlurDefault</a></td>
+<td>true</td>
+<td>If set, overrides the value used when date is invalid by it instead of using the current datetime</td>
+<td>
+<pre><code class="language-javascript">{ OverrideValidateOnBlurDefault:""}</code></pre>
+</td>
+</tr>
 <tr id="timepicker">
 <td><a href="#timepicker">timepicker</a></td>
 <td>true</td>
