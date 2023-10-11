@@ -1314,6 +1314,7 @@ var datetimepickerFactory = function ($) {
 							} else {
 								var d = dateHelper.parseDate($(this).val(), options.format);
 								if (d) { // parseDate() may skip some invalid parts like date or time, so make it clear for user: show parsed date/time
+									// TODO: Fix this bug year 1900
 									$(this).val(dateHelper.formatDate(d, options.format));
 								} else {
 									var splittedHours   = +([$(this).val()[0], $(this).val()[1]].join('')),
