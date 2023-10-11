@@ -598,9 +598,9 @@ jQuery(function(){
 <tr id="OverrideValidateOnBlurDefault">
 <td><a href="#OverrideValidateOnBlurDefault">OverrideValidateOnBlurDefault</a></td>
 <td>true</td>
-<td>If set, overrides the value used when date is invalid by it instead of using the current datetime</td>
+<td>If set, overrides the value used when date is invalid by blank instead of using the current datetime. Only works when allowBlank is set.</td>
 <td>
-<pre><code class="language-javascript">{ OverrideValidateOnBlurDefault:""}</code></pre>
+<pre><code class="language-javascript">{ OverrideValidateOnBlurDefault: true}</code></pre>
 </td>
 </tr>
 <tr id="timepicker">

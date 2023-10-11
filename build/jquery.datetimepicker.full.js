@@ -628,6 +628,7 @@ var datetimepickerFactory = function ($) {
 		lazyInit: false,
 		mask: false,
 		validateOnBlur: true,
+		OverrideValidateOnBlurDefault: false,
 		allowBlank: true,
 		yearStart: 1950,
 		yearEnd: 2050,
@@ -1337,10 +1338,20 @@ var datetimepickerFactory = function ($) {
 											return item > 9 ? item : '0' + item;
 										}).join(':'));
 									} else {
-										$(this).val(dateHelper.formatDate(_xdsoft_datetime.now(), options.format));
+										if(options.OverrideValidateOnBlurDefault && options.allowBlank){
+											$(this).val(dateHelper.formatDate('', options.format));
+										}
+										else{
+											$(this).val(dateHelper.formatDate(_xdsoft_datetime.now(), options.format));
+										}
 									}
 								}
-								datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());
+								if(options.OverrideValidateOnBlurDefault && options.allowBlank){
+									datetimepicker.data('xdsoft_datetime').empty();
+								}
+								else{
+									datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());
+								}
 							}
 
 							datetimepicker.trigger('changedatetime.xdsoft');
@@ -2445,8 +2456,8 @@ var datetimepickerFactory = function ($) {
 						val = this.value,
 						pos = this.selectionStart
 
-					    var valueBeforeCursor = val.substr(0, pos);
-					    var valueAfterPaste = val.substr(pos + pastedData.length);
+					    var valueBeforeCursor = val.slice(0, pos);
+					    var valueAfterPaste = val.slice(pos + pastedData.length);
 
 					    val = valueBeforeCursor + pastedData + valueAfterPaste;
 					    pos += pastedData.length;
@@ -2491,7 +2502,7 @@ var datetimepickerFactory = function ($) {
 						//   value char - keep incrementing position while on separator char and we still have room
 						//   del char   - keep decrementing position while on separator char and we still have room
 						while (true) {
-						  var maskValueAtCurPos = options.mask.substr(pos, 1);
+						  var maskValueAtCurPos = options.mask.slice(pos, pos+1);
 						  var posShorterThanMaskLength = pos < options.mask.length;
 						  var posGreaterThanZero = pos > 0;
 						  var notNumberOrPlaceholder = /[^0-9_]/;
@@ -2517,19 +2528,19 @@ var datetimepickerFactory = function ($) {
 
 						  // if we have a selection length we will wipe out entire selection and replace with default template for that range
 						  var defaultBlank = options.mask.replace(/[0-9]/g, '_');
-						  var defaultBlankSelectionReplacement = defaultBlank.substr(pos, selLength);
-						  var selReplacementRemainder = defaultBlankSelectionReplacement.substr(1) // might be empty
+						  var defaultBlankSelectionReplacement = defaultBlank.slice(pos, pos+selLength);
+						  var selReplacementRemainder = defaultBlankSelectionReplacement.slice(1) // might be empty
 
-						  var valueBeforeSel = val.substr(0, pos);
+						  var valueBeforeSel = val.slice(0, pos);
 						  var insertChars = digit + selReplacementRemainder;
-						  var charsAfterSelection = val.substr(pos + selLength);
+						  var charsAfterSelection = val.slice(pos + selLength);
 
 						  val = valueBeforeSel + insertChars + charsAfterSelection
 
 						} else {
-						  var valueBeforeCursor = val.substr(0, pos);
+						  var valueBeforeCursor = val.slice(0, pos);
 						  var insertChar = digit;
-						  var valueAfterNextChar = val.substr(pos + 1);
+						  var valueAfterNextChar = val.slice(pos + 1);
 
 						  val = valueBeforeCursor + insertChar + valueAfterNextChar
 						}
@@ -2548,7 +2559,7 @@ var datetimepickerFactory = function ($) {
 						// resume cursor location
 						pos += (key === BACKSPACE) ? 0 : 1;
 						// don't stop on a separator, continue whatever direction you were going
-						while (/[^0-9_]/.test(options.mask.substr(pos, 1)) && pos < options.mask.length && pos > 0) {
+						while (/[^0-9_]/.test(options.mask.slice(pos, pos+1)) && pos < options.mask.length && pos > 0) {
 						    pos += (key === BACKSPACE) ? 0 : 1;
 						}
 

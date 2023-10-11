@@ -615,7 +615,7 @@ var datetimepickerFactory = function ($) {
 		lazyInit: false,
 		mask: false,
 		validateOnBlur: true,
-		OverrideValidateOnBlurDefault: null,
+		OverrideValidateOnBlurDefault: false,
 		allowBlank: true,
 		yearStart: 1950,
 		yearEnd: 2050,
@@ -1325,15 +1325,20 @@ var datetimepickerFactory = function ($) {
 											return item > 9 ? item : '0' + item;
 										}).join(':'));
 									} else {
-										if(options.OverrideValidateOnBlurDefault != null){
-											$(this).val(dateHelper.formatDate(options.OverrideValidateOnBlurDefault, options.format));
+										if(options.OverrideValidateOnBlurDefault && options.allowBlank){
+											$(this).val(dateHelper.formatDate('', options.format));
 										}
 										else{
 											$(this).val(dateHelper.formatDate(_xdsoft_datetime.now(), options.format));
 										}
 									}
 								}
-								datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());
+								if(options.OverrideValidateOnBlurDefault && options.allowBlank){
+									datetimepicker.data('xdsoft_datetime').empty();
+								}
+								else{
+									datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());
+								}
 							}
 
 							datetimepicker.trigger('changedatetime.xdsoft');
