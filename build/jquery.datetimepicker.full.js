@@ -562,8 +562,8 @@ var datetimepickerFactory = function ($) {
 		value: '',
 		rtl: false,
 
-		format:	'YYYY/MM/DD hh:mm',
-		formatTime:	'hh:mm',
+		format:	'YYYY/MM/DD HH:mm',
+		formatTime:	'HH:mm',
 		formatDate:	'YYYY/MM/DD',
 
 		startDate:	false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
@@ -580,7 +580,7 @@ var datetimepickerFactory = function ($) {
 		datepicker: true,
 		weeks: false,
 
-		defaultTime: false,	// use formatTime format (ex. '10:00' for formatTime:	'hh:mm')
+		defaultTime: false,	// use formatTime format (ex. '10:00' for formatTime:	'HH:mm')
 		defaultDate: false,	// use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
 
 		minDate: false,
@@ -741,15 +741,15 @@ var datetimepickerFactory = function ($) {
 	};
 
 	var standardFormats = {
-		RFC_2822: 'D, d M Y hh:mm:ss O',
-		ATOM: 'YYYY-MM-d\Thh:mm:ssP',
-		ISO_8601: 'Y-m-d\Thh:mm:ssO',
-		RFC_822: 'D, d M y hh:mm:ss O',
-		RFC_850: 'l, d-M-y hh:mm:ss T',
-		RFC_1036: 'D, d M y hh:mm:ss O',
-		RFC_1123: 'D, d M Y hh:mm:ss O',
-		RSS: 'D, d M Y hh:mm:ss O',
-		W3C: 'Y-m-d\Thh:mm:ssP'
+		RFC_2822: 'D, d M Y HH:mm:ss O',
+		ATOM: 'YYYY-MM-d\THH:mm:ssP',
+		ISO_8601: 'Y-m-d\THH:mm:ssO',
+		RFC_822: 'D, d M y HH:mm:ss O',
+		RFC_850: 'l, d-M-y HH:mm:ss T',
+		RFC_1036: 'D, d M y HH:mm:ss O',
+		RFC_1123: 'D, d M Y HH:mm:ss O',
+		RSS: 'D, d M Y HH:mm:ss O',
+		W3C: 'Y-m-d\THH:mm:ssP'
 	}
 
 	var isFormatStandard = function(format){
