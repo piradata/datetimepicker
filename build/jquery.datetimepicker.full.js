@@ -562,9 +562,9 @@ var datetimepickerFactory = function ($) {
 		value: '',
 		rtl: false,
 
-		format:	'Y/m/d H:i',
-		formatTime:	'H:i',
-		formatDate:	'Y/m/d',
+		format:	'YYYY/MM/DD hh:mm',
+		formatTime:	'hh:mm',
+		formatDate:	'YYYY/MM/DD',
 
 		startDate:	false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
 		step: 60,
@@ -580,7 +580,7 @@ var datetimepickerFactory = function ($) {
 		datepicker: true,
 		weeks: false,
 
-		defaultTime: false,	// use formatTime format (ex. '10:00' for formatTime:	'H:i')
+		defaultTime: false,	// use formatTime format (ex. '10:00' for formatTime:	'hh:mm')
 		defaultDate: false,	// use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
 
 		minDate: false,
@@ -629,6 +629,7 @@ var datetimepickerFactory = function ($) {
 		mask: false,
 		validateOnBlur: true,
 		OverrideValidateOnBlurDefault: false,
+
 		allowBlank: true,
 		yearStart: 1950,
 		yearEnd: 2050,
@@ -740,15 +741,15 @@ var datetimepickerFactory = function ($) {
 	};
 
 	var standardFormats = {
-		RFC_2822: 'D, d M Y H:i:s O',
-		ATOM: 'Y-m-d\TH:i:sP',
-		ISO_8601: 'Y-m-d\TH:i:sO',
-		RFC_822: 'D, d M y H:i:s O',
-		RFC_850: 'l, d-M-y H:i:s T',
-		RFC_1036: 'D, d M y H:i:s O',
-		RFC_1123: 'D, d M Y H:i:s O',
-		RSS: 'D, d M Y H:i:s O',
-		W3C: 'Y-m-d\TH:i:sP'
+		RFC_2822: 'D, d M Y hh:mm:ss O',
+		ATOM: 'YYYY-MM-d\Thh:mm:ssP',
+		ISO_8601: 'Y-m-d\Thh:mm:ssO',
+		RFC_822: 'D, d M y hh:mm:ss O',
+		RFC_850: 'l, d-M-y hh:mm:ss T',
+		RFC_1036: 'D, d M y hh:mm:ss O',
+		RFC_1123: 'D, d M Y hh:mm:ss O',
+		RSS: 'D, d M Y hh:mm:ss O',
+		W3C: 'Y-m-d\Thh:mm:ssP'
 	}
 
 	var isFormatStandard = function(format){
@@ -1292,13 +1293,13 @@ var datetimepickerFactory = function ($) {
 					options.maxDate = dateHelper.formatDate(_xdsoft_datetime.strToDateTime(options.maxDate), options.formatDate);
 				}
 
-                if (options.minDateTime &&  /^\+(.*)$/.test(options.minDateTime)) {
-                	options.minDateTime = _xdsoft_datetime.strToDateTime(options.minDateTime).dateFormat(options.formatDate);
-                }
+				if (options.minDateTime &&  /^\+(.*)$/.test(options.minDateTime)) {
+					options.minDateTime = _xdsoft_datetime.strToDateTime(options.minDateTime).dateFormat(options.formatDate);
+				}
 
-                if (options.maxDateTime &&  /^\+(.*)$/.test(options.maxDateTime)) {
-                	options.maxDateTime = _xdsoft_datetime.strToDateTime(options.maxDateTime).dateFormat(options.formatDate);
-                }
+				if (options.maxDateTime &&  /^\+(.*)$/.test(options.maxDateTime)) {
+					options.maxDateTime = _xdsoft_datetime.strToDateTime(options.maxDateTime).dateFormat(options.formatDate);
+				}
 
 				applyButton.toggle(options.showApplyButton);
 
@@ -1327,6 +1328,7 @@ var datetimepickerFactory = function ($) {
 							} else {
 								var d = dateHelper.parseDate($(this).val(), options.format);
 								if (d) { // parseDate() may skip some invalid parts like date or time, so make it clear for user: show parsed date/time
+									// TODO: Fix this bug year 1900
 									$(this).val(dateHelper.formatDate(d, options.format));
 								} else {
 									var splittedHours   = +([$(this).val()[0], $(this).val()[1]].join('')),
@@ -1339,19 +1341,14 @@ var datetimepickerFactory = function ($) {
 										}).join(':'));
 									} else {
 										if(options.OverrideValidateOnBlurDefault && options.allowBlank){
-											$(this).val(dateHelper.formatDate('', options.format));
+											$(this).val(null);
 										}
 										else{
 											$(this).val(dateHelper.formatDate(_xdsoft_datetime.now(), options.format));
 										}
 									}
 								}
-								if(options.OverrideValidateOnBlurDefault && options.allowBlank){
-									datetimepicker.data('xdsoft_datetime').empty();
-								}
-								else{
-									datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());
-								}
+								datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());
 							}
 
 							datetimepicker.trigger('changedatetime.xdsoft');
